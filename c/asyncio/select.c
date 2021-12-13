@@ -7,7 +7,7 @@
 int main() {
     fd_set fd;
     struct timeval tv;
-    int err;
+    int ret;
 
     FD_ZERO(&fd);
     FD_SET(0, &fd);
@@ -15,17 +15,18 @@ int main() {
     tv.tv_sec = 5;
     tv.tv_usec = 0;
 
-    err = select(1, &fd, NULL, NULL, &tv);
+    ret = select(1, &fd, NULL, NULL, &tv);
+    printf("return value is %d\n", ret);
 
-    if (err == 0)
+    if (ret == 0)
     {
 	printf("select timeout\n");
-    } else if (err == -1)
+    } else if (ret == -1)
     {
-	printf("failed to select");
+	printf("failed to select\n");
     } else
     {
-	printf("data is available");
+	printf("data is available\n");
     }
 
     return 0;
