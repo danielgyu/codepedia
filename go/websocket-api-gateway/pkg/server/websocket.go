@@ -23,30 +23,18 @@ func wsJSON(w http.ResponseWriter, r *http.Request) {
 	for {
 		var reqMsg map[string]interface{}
 		err = c.ReadJSON(&reqMsg)
-	}
-}
-
-func wsEndpoint(w http.ResponseWriter, r *http.Request) {
-	c, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Printf("WebSocket upgrade error: %s", err)
-		return
-	}
-	defer c.Close()
-
-	for {
-		msgType, msg, err := c.ReadMessage()
 		if err != nil {
-			log.Printf("Read message error: %s", err)
-			break
+			log.Printf("Read message error: %s\n", err)
 		}
 
-		log.Printf("Received message: %s", msg)
+		log.Printf("Received message: %s", reqMsg)
 
-		err = c.WriteMessage(msgType, []byte("ws return"))
+		returnMsg := map[string]string{"hello": "world"}
+		err = c.WriteJSON(returnMsg)
 		if err != nil {
 			log.Printf("Write message error: %s", err)
 			break
 		}
+
 	}
 }
