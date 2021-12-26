@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/danielgyu/ws-gateway/pkg/message"
+	"github.com/danielgyu/ws-gateway/pkg/registry"
 	"github.com/gorilla/websocket"
 )
 
@@ -21,16 +23,20 @@ func wsJSON(w http.ResponseWriter, r *http.Request) {
 	defer c.Close()
 
 	for {
-		var reqMsg map[string]interface{}
+		reqMsg := message.Request{}
 		err = c.ReadJSON(&reqMsg)
 		if err != nil {
 			log.Printf("Read message error: %s\n", err)
+			break
 		}
 
-		log.Printf("Received message: %s", reqMsg)
+		response, err := registry.Process(reqMsg)
+		if err != nil {
+			log.Printf("Process error: %s\n", err)
+			break
+		}
 
-		returnMsg := map[string]string{"hello": "world"}
-		err = c.WriteJSON(returnMsg)
+		err = c.WriteJSON(response)
 		if err != nil {
 			log.Printf("Write message error: %s", err)
 			break

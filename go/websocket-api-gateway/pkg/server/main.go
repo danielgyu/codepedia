@@ -6,7 +6,7 @@ import (
 )
 
 func RunGateway() {
-	http.HandleFunc("/ws", wsEndpoint)
+	http.HandleFunc("/ws", wsJSON)
 	http.HandleFunc("/health", healthcheck)
 
 	port := ":8000"
