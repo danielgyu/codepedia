@@ -1,4 +1,4 @@
-package com.mayfly.interview.Searching;
+package com.mayfly.interview.searching;
 
 public class BinarySearch {
     public static void run() {

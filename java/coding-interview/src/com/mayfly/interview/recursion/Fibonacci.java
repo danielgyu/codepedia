@@ -1,4 +1,4 @@
-package com.mayfly.interview.Recursion;
+package com.mayfly.interview.recursion;
 
 import java.util.HashMap;
 

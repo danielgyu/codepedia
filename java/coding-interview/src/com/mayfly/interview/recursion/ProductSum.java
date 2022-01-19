@@ -1,6 +1,5 @@
-package com.mayfly.interview.Recursion;
+package com.mayfly.interview.recursion;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

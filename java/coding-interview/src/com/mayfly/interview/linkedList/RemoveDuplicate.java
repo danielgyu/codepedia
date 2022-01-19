@@ -1,4 +1,4 @@
-package com.mayfly.interview.LinkedList;
+package com.mayfly.interview.linkedList;
 
 public class RemoveDuplicate {
     public static class LinkedList {
