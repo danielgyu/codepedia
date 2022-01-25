@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.Strings.GenerateDocument;
+import com.mayfly.interview.strings.NonRepeatingCharacter;
 
 public class Program {
     public static void main(String[] args) {
-        GenerateDocument.run();
+        NonRepeatingCharacter.run();
     }
 }

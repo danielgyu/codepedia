@@ -1,4 +1,4 @@
-package com.mayfly.interview.Strings;
+package com.mayfly.interview.strings;
 
 import java.util.HashMap;
 
