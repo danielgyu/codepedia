@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.arrays.ThreeNumberSum;
+import com.mayfly.interview.arrays.MonotonicArray;
 
 public class Program {
     public static void main(String[] args) {
-        ThreeNumberSum.run();
+        MonotonicArray.run();
     }
 }
