@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.arrays.MonotonicArray;
+import com.mayfly.interview.arrays.SpiralTraverse;
 
 public class Program {
     public static void main(String[] args) {
-        MonotonicArray.run();
+        SpiralTraverse.run();
     }
 }
