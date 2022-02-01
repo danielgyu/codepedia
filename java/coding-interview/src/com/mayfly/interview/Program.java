@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.arrays.SpiralTraverse;
+import com.mayfly.interview.arrays.LongestPeak;
 
 public class Program {
     public static void main(String[] args) {
-        SpiralTraverse.run();
+        LongestPeak.run();
     }
 }
