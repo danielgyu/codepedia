@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.arrays.MergeOverlappingIntervals;
+import com.mayfly.interview.binarySearchTree.BSTConstruction;
 
 public class Program {
     public static void main(String[] args) {
-        MergeOverlappingIntervals.run();
+        BSTConstruction.run();
     }
 }
