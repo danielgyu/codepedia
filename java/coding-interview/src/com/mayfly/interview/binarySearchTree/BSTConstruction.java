@@ -3,33 +3,14 @@ package com.mayfly.interview.binarySearchTree;
 public class BSTConstruction {
 
     public static void run() {
-        BST head = new BST(10);
-        head.insert(8);
-        head.insert(12);
-        head.insert(11);
-        head.insert(13);
-        head.insert(14);
-        System.out.println("head.right.right.value = " + head.right.right.value);
-        System.out.println();
-
-        System.out.println("head.contains(9) = " + head.contains(9));
-        System.out.println("head.contains(9) = " + head.contains(13));
-        System.out.println();
-
-        System.out.println("head.right.right = " + head.right.right.value);
-        head.remove(13);
-        System.out.println("head.right.right = " + head.right.right.value);
-        System.out.println();
-
-        head.remove(14);
-        System.out.println("head.right.right = " + head.right.right);
-        System.out.println();
-
-
-        System.out.println("head.right.left = " + head.right.left.value);
-        head.remove(10);
+        BST head = new BST(4);
+        head.insert(3);
+        head.insert(2);
+        head.insert(1);
+        head.remove(2);
         System.out.println("head.value = " + head.value);
-        System.out.println("head.right.left = " + head.right.left);
+        System.out.println("head.left.value = " + head.left.value);
+        System.out.println("head.left.left.value = " + head.left.left.value);
     }
 
     static class BST {
@@ -102,24 +83,39 @@ public class BSTConstruction {
 
                 } else if (node.left == null || node.right == null){
                     // one child
-                    if (node.left == null && value < previous.value) {
-                        previous.left = node.right;
-                    } else if (node.left == null && value > previous.value) {
-                        previous.right = node.right;
-                    } else if (node.right == null && value < previous.value) {
-                        previous.left = node.left;
-                    } else {
-                        previous.right = node.left;
+                    if (node.left == null) {
+                        if (node == this) {
+                            node.value = node.right.value;
+                            node.right = node.right.right;
+                        } else if (value < previous.value) {
+                            previous.left = node.right;
+                        } else {
+                            previous.right = node.right;
+                        }
+                     } else {
+                        if (node == this) {
+                            node.value = node.left.value;
+                            node.left = node.left.left;
+                        } else if (value < previous.value) {
+                            previous.left = node.left;
+                        } else {
+                            previous.right = node.left;
+                        }
                     }
 
                 } else {
                     BST min = node.right;
-                    while (min.left != null) {
-                        previous = min;
-                        min = min.left;
+                    if (min.left != null) {
+                        while (min.left != null) {
+                            previous = min;
+                            min = min.left;
+                        }
+                        node.value = min.value;
+                        previous.left = null;
+                    } else {
+                        node.value = min.value;
+                        node.right = null;
                     }
-                    node.value = min.value;
-                    previous.left = null;
                 }
             }
 
