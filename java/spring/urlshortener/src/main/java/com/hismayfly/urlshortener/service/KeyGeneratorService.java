@@ -1,9 +1,10 @@
 package com.hismayfly.urlshortener.service;
 
-import com.hismayfly.urlshortener.domain.HUID;
+import com.hismayfly.urlshortener.domain.Huid;
 import com.hismayfly.urlshortener.repository.KeyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -13,17 +14,22 @@ public class KeyGeneratorService {
 
     private final KeyRepository keyRepository;
 
-    public String generateKey() {
+    @Transactional
+    public Huid generateKey() {
         String uuid = UUID.randomUUID().toString().substring(0, 8);
-        HUID huid = new HUID();
+        Huid huid = new Huid();
         huid.setUuid(uuid);
 
-        while (keyRepository.contains(huid)) {
+        while (checkDuplicate(huid)) {
             uuid = UUID.randomUUID().toString().substring(0, 8);
             huid.setUuid(uuid);
         }
 
         keyRepository.save(huid);
-        return huid.getUuid();
+        return huid;
+    }
+
+    public boolean checkDuplicate(Huid huid) {
+        return keyRepository.contains(huid);
     }
 }

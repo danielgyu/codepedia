@@ -1,24 +1,22 @@
 package com.hismayfly.urlshortener.repository;
 
-import com.hismayfly.urlshortener.domain.HUID;
+import com.hismayfly.urlshortener.domain.Huid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
 @Repository
+@RequiredArgsConstructor
 public class KeyRepository {
 
     private final EntityManager em;
 
-    public KeyRepository(EntityManager em) {
-        this.em = em;
-    }
-
-    public Boolean contains(HUID huid) {
+    public Boolean contains(Huid huid) {
         return em.contains(huid);
     }
 
-    public void save(HUID huid) {
+    public void save(Huid huid) {
         em.persist(huid);
     }
 }

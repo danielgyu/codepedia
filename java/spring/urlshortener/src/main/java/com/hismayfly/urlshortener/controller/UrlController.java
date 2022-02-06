@@ -1,5 +1,6 @@
 package com.hismayfly.urlshortener.controller;
 
+import com.hismayfly.urlshortener.domain.Huid;
 import com.hismayfly.urlshortener.domain.Url;
 import com.hismayfly.urlshortener.service.KeyGeneratorService;
 import com.hismayfly.urlshortener.service.UrlService;
@@ -16,16 +17,22 @@ public class UrlController {
 
     @GetMapping("/{key}")
     public RedirectOriginalUrlResponse getOriginalUrl(@PathVariable String key) {
-        String originalurl = urlService.find(key);
-        // TODO redirect later
-        return new RedirectOriginalUrlResponse(originalurl);
+        Url url = urlService.find(key);
+        // TODO redirect
+        return new RedirectOriginalUrlResponse(url.getOriginalUrl());
     }
 
     @PostMapping("/url")
-    public CreateShortenedUrlResponse createShortenedUrl(@RequestBody Url url) {
-        String shortenedUrl = keyGeneratorService.generateKey();
-        urlService.pair(url.getOriginalurl(), shortenedUrl);
-        return new CreateShortenedUrlResponse(shortenedUrl);
+    public CreateShortenedUrlResponse createShortenedUrl(@RequestBody CreateShortenedUrlRequest request) {
+        Huid huid = keyGeneratorService.generateKey();
+
+        Url url = new Url();
+        url.setOriginalUrl(request.getOriginalUrl());
+        url.setUserId(request.getUserId());
+        url.setHuid(huid);
+
+        urlService.pair(url);
+        return new CreateShortenedUrlResponse(huid.getUuid());
     }
 
     @Data
@@ -38,11 +45,17 @@ public class UrlController {
     }
 
     @Data
+    static class CreateShortenedUrlRequest {
+        private String originalUrl;
+        private int userId; // TODO substitute with spring security
+    }
+
+    @Data
     static class CreateShortenedUrlResponse {
         private String shortenedUrl;
 
-        public CreateShortenedUrlResponse(String shortenedUrl) {
-            this.shortenedUrl = shortenedUrl;
+        public CreateShortenedUrlResponse(String url) {
+            this.shortenedUrl = url;
         }
     }
 }

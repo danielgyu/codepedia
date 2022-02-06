@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Table(name = "urls")
 @Getter
@@ -17,8 +19,12 @@ public class Url {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "huid_id")
+    private Huid huid;
+
     @Column(name = "original_url", nullable = false)
-    private String originalurl;
+    private String originalUrl;
 
     @Column(name = "user_id", nullable = false)
     private Integer userId;

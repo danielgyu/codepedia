@@ -1,25 +1,22 @@
 package com.hismayfly.urlshortener.repository;
 
+import com.hismayfly.urlshortener.domain.Url;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 
 @Repository
+@RequiredArgsConstructor
 public class UrlRepository {
 
     private final EntityManager em;
 
-    public UrlRepository(EntityManager em) {
-        this.em = em;
+    public Url find(String urlKey) {
+        return em.find(Url.class, urlKey);
     }
 
-    public String find(String urlKey) {
-        // TODO: implement actual logic
-        return "testing-" + urlKey;
-    }
-
-    public void save(String url) {
-
+    public void save(Url url) {
+        em.persist(url);
     }
 }

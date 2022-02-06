@@ -6,14 +6,18 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "keys")
+@Table(name = "huid")
 @Getter
 @Setter
-public class HUID {
+public class Huid {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "huid_id")
     private Integer id;
+
+    @OneToOne(mappedBy = "huid", fetch = FetchType.LAZY)
+    private Url url;
 
     @Column(nullable = false, unique = true)
     private String uuid;
