@@ -17,7 +17,7 @@ public class UrlController {
 
     @GetMapping("/{key}")
     public RedirectOriginalUrlResponse getOriginalUrl(@PathVariable String key) {
-        Url url = urlService.find(key);
+        Url url = urlService.findByUuid(key);
         // TODO redirect
         return new RedirectOriginalUrlResponse(url.getOriginalUrl());
     }

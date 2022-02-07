@@ -12,8 +12,8 @@ public class UrlService {
 
     private final UrlRepository urlRepository;
 
-    public Url find(String urlKey) {
-        return urlRepository.find(urlKey);
+    public Url findByUuid(String urlKey) {
+        return urlRepository.findByUuid(urlKey);
     }
 
     @Transactional
