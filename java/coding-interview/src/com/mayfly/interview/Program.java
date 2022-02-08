@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.binarySearchTree.BSTConstruction;
+import com.mayfly.interview.binarySearchTree.TraverseBST;
 
 public class Program {
     public static void main(String[] args) {
-        BSTConstruction.run();
+        TraverseBST.run();
     }
 }
