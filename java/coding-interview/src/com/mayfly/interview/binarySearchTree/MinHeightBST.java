@@ -18,6 +18,28 @@ public class MinHeightBST {
 
         List<Integer> array4 = new ArrayList<Integer>(Arrays.asList(1, 2));
         BST head4 = minHeightBST(array4);
+
+        List<Integer> array5 = new ArrayList<Integer>(Arrays.asList(1, 2, 5, 7, 10, 13, 14, 15, 22, 28, 32, 36));
+        BST head5 = minHeightBSTV2(array5);
+        System.out.println("head5.right.right.right.value = " + head5.right.right.right.value);
+    }
+
+    public static BST minHeightBSTV2(List<Integer> array) {
+        return constructBST(array, null, 0, array.size() - 1);
+    }
+
+    public static BST constructBST(List<Integer> array, BST bst, int startIdx, int endIdx) {
+        if (endIdx < startIdx) { return null; }
+        int mid = (startIdx + endIdx) / 2;
+        if (bst == null) {
+            bst = new BST(array.get(mid));
+        } else {
+            bst.insert(array.get(mid));
+        }
+
+        constructBST(array, bst, startIdx, mid - 1);
+        constructBST(array, bst, mid + 1, endIdx);
+        return bst;
     }
 
     public static BST minHeightBST(List<Integer> array) {
@@ -30,15 +52,10 @@ public class MinHeightBST {
             return head;
         }
 
-        int middle = getMiddleIndex(array.size());
-        BST head = new BST(array.get(middle));
-
-        splitIntoHalf(head, array.subList(0, middle));
-        splitIntoHalf(head, array.subList(middle +1, array.size()));
-        return head;
+        return splitIntoHalf(null, array);
     }
 
-    public static void splitIntoHalf(BST head, List<Integer> array) {
+    public static BST splitIntoHalf(BST head, List<Integer> array) {
         int mid = getMiddleIndex(array.size());
 
         if (head == null) {
@@ -53,6 +70,8 @@ public class MinHeightBST {
         if (array.size() > 1 && mid < array.size()) {
             splitIntoHalf(head, array.subList(mid + 1, array.size()));
         }
+
+        return head;
     }
 
     public static int getMiddleIndex(int size) {
