@@ -7,6 +7,7 @@ import com.hismayfly.urlshortener.service.UrlService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,10 +17,12 @@ public class UrlController {
     private final KeyGeneratorService keyGeneratorService;
 
     @GetMapping("/{key}")
-    public RedirectOriginalUrlResponse getOriginalUrl(@PathVariable String key) {
+    public RedirectView getOriginalUrl(@PathVariable String key) {
         Url url = urlService.findByUuid(key);
-        // TODO redirect
-        return new RedirectOriginalUrlResponse(url.getOriginalUrl());
+
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(url.getOriginalUrl());
+        return redirectView;
     }
 
     @PostMapping("/url")
@@ -33,15 +36,6 @@ public class UrlController {
 
         urlService.pair(url);
         return new CreateShortenedUrlResponse(huid.getUuid());
-    }
-
-    @Data
-    static class RedirectOriginalUrlResponse {
-        private String originalUrl;
-
-        public RedirectOriginalUrlResponse(String originalUrl) {
-            this.originalUrl = originalUrl;
-        }
     }
 
     @Data
