@@ -18,10 +18,10 @@ public class UrlController {
 
     @GetMapping("/{key}")
     public RedirectView getOriginalUrl(@PathVariable String key) {
-        Url url = urlService.findByUuid(key);
+        String originalUrl = urlService.findByUuid(key);
 
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(url.getOriginalUrl());
+        redirectView.setUrl(originalUrl);
         return redirectView;
     }
 
