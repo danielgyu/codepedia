@@ -2,9 +2,11 @@ package com.hismayfly.jpabasics.repository;
 
 import com.hismayfly.jpabasics.domain.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,4 +33,12 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
             nativeQuery = true
     )
     Student getStudentByEmailAddressNativeNamedParam(@Param("email") String email);
+
+    @Modifying
+    @Transactional
+    @Query(
+            value = "UPDATE student SET first_name = ?1 WHERE email_address = ?2",
+            nativeQuery = true
+    )
+    int updateStudentNameByEmail(String firstName, String email);
 }

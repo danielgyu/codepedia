@@ -133,4 +133,20 @@ class StudentRepositoryTest {
         Student studentByEmailAddress = studentRepository.getStudentByEmailAddressNativeNamedParam("last2@ab.com");
         System.out.println("studentByEmailAddress = " + studentByEmailAddress);
     }
+
+    @Test
+    public void printUpdateStudentByEmail() {
+        Guardian guardian = new Guardian("g1", "e1", "m1");
+        Student student = Student.builder()
+                .firstName("lee")
+                .lastName("last3")
+                .email("last2@ab.com")
+                .guardian(guardian)
+                .build();
+        studentRepository.save(student);
+
+        studentRepository.updateStudentNameByEmail("kim", "last2@ab.com");
+        Student found = studentRepository.findByLastName("last3");
+        System.out.println("student = " + found.getFirstName());
+    }
 }

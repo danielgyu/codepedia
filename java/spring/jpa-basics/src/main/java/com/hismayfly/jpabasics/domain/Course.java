@@ -1,13 +1,14 @@
 package com.hismayfly.jpabasics.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Course {
     @Id @GeneratedValue
     @Column(name = "course_id")
@@ -17,7 +18,10 @@ public class Course {
 
     private Integer credit;
 
-    //private CourseMaterial courseMaterial;
+    @OneToOne(mappedBy = "course")
+    private CourseMaterial courseMaterial;
 
-    //private Teacher teacher;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id", referencedColumnName = "teacher_id")
+    private Teacher teacher;
 }
