@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.binaryTree.InvertBinaryTree;
+import com.mayfly.interview.DynamicProgramming.MinimumPathSum;
 
 public class Program {
     public static void main(String[] args) {
-        InvertBinaryTree.run();
+        MinimumPathSum.run();
     }
 }
