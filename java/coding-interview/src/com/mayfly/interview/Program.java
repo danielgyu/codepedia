@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.binaryTree.FindSuccessor;
 
 public class Program {
     public static void main(String[] args) {
-        FindSuccessor.run();
+        int abs = Math.abs(10 - -8);
+        System.out.println("abs = " + abs);
     }
 }
