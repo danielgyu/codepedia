@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
+import com.mayfly.interview.binaryTree.HeightBalanced;
 
 public class Program {
     public static void main(String[] args) {
-        int abs = Math.abs(10 - -8);
-        System.out.println("abs = " + abs);
+        HeightBalanced.run();
     }
 }
