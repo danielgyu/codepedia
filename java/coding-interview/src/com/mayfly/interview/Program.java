@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.binaryTree.HeightBalanced;
+import com.mayfly.interview.dynamicProgramming.MaxSubsetNoAdjacent;
 
 public class Program {
     public static void main(String[] args) {
-        HeightBalanced.run();
+        MaxSubsetNoAdjacent.run();
     }
 }

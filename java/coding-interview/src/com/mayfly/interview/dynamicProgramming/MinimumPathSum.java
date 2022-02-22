@@ -1,4 +1,4 @@
-package com.mayfly.interview.DynamicProgramming;
+package com.mayfly.interview.dynamicProgramming;
 
 import java.util.Arrays;
 
