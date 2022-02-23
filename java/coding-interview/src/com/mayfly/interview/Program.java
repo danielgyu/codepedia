@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.dynamicProgramming.NumberOfWaysToMakeChange;
+import com.mayfly.interview.dynamicProgramming.MinNumberOfCoinsForChange;
 
 public class Program {
     public static void main(String[] args) {
-        NumberOfWaysToMakeChange.run();
+        MinNumberOfCoinsForChange.run();
     }
 }
