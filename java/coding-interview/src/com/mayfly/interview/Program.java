@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.dynamicProgramming.NumberOfWaysToTraverseGraph;
+import com.mayfly.interview.graphs.SingleCycleCheck;
 
 public class Program {
     public static void main(String[] args) {
-        NumberOfWaysToTraverseGraph.run();
+        SingleCycleCheck.run();
     }
 }
