@@ -13,17 +13,16 @@ public class SingleCycleCheck {
             numVisited++;
         }
 
+        System.out.println("curIndex == 0 = " + (curIndex == 0));
         return curIndex == 0;
     }
 
     public static int findNextIndex(int givenIndex, int[] array) {
         int value = array[givenIndex];
-        int nextIndex = (givenIndex + value) % array.length;
+        int nextIndex = (givenIndex + value);
+        int mod = nextIndex > 0 ? nextIndex % array.length : Math.floorMod(nextIndex, array.length);
 
-        System.out.println("givenIndex: " + givenIndex + " " + "value: " + value);
-        System.out.println("nextIndex = " + nextIndex);
-        System.out.println();
-        return nextIndex;
+        return mod;
     }
 
     public static void run() {
