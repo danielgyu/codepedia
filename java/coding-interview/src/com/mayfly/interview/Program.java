@@ -1,9 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.graphs.BreadthFirstSearch;
+import com.mayfly.interview.graphs.RiverSizes;
 
 public class Program {
     public static void main(String[] args) {
-        BreadthFirstSearch.run();
+        RiverSizes.run();
     }
 }
