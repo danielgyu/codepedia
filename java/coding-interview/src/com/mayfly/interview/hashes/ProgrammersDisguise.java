@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Disguise {
+public class ProgrammersDisguise {
 
     public static int disguise(String[][] clothes) {
         HashMap<String, Integer> map = new HashMap<>();
