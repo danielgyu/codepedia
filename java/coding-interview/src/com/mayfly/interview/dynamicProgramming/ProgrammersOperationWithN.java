@@ -2,7 +2,6 @@ package com.mayfly.interview.dynamicProgramming;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class ProgrammersOperationWithN {
@@ -11,6 +10,57 @@ public class ProgrammersOperationWithN {
     static int answer = -1;
     static int answer2 = -1;
 
+    public static int finalSolution(int N, int number) {
+        int ans = -1;
+        Set<Integer>[] set = new Set[9];
+        int t = N;
+        for (int i = 1; i < 9; i++) {
+            set[i] = new HashSet<>();
+            set[i].add(t);
+            t = t * 10 + N;
+        }
+
+        for (int i = 1; i < 9; i++) {
+            for (int j = 1; j < i; j++) {
+                for (Integer a : set[j]) {
+                    for (Integer b : set[i - j]) {
+                        set[i].add(a + b);
+                        set[i].add(a - b);
+                        set[i].add(b - a);
+                        set[i].add(a * b);
+                        if (b != 0) {
+                            set[i].add(a / b);
+                        }
+                        if (a != 0) {
+                            set[i].add(b / a);
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int i = 1; i < 9; i++) {
+            if (set[i].contains(number)) {
+                ans = i;
+                break;
+            }
+        }
+
+        return ans;
+    }
+
+    public static void run() {
+        System.out.println("finalSolution(5, 12) = " + finalSolution(5, 12));
+
+        //System.out.println("solution(5, 12) = " + solution(5, 12));
+        //System.out.println("solution(3, 9) = " + solution(3, 9));
+
+        //System.out.println("solutionUsingBFS(5, 12) = " + solutionUsingBFS(5, 12));
+
+        //System.out.println("bfsSolution(5, 12) = " + bfsSolution(5, 12));
+    }
+
+    /*
     public static int bfsSolution(int N, int number) {
         dfs2(N, number, 0, 0);
         return answer2;
@@ -57,15 +107,6 @@ public class ProgrammersOperationWithN {
         }
     }
 
-    public static void run() {
-        //System.out.println("solution(5, 12) = " + solution(5, 12));
-        //System.out.println("solution(3, 9) = " + solution(3, 9));
-
-        System.out.println("solutionUsingBFS(5, 12) = " + solutionUsingBFS(5, 12));
-
-        System.out.println("bfsSolution(5, 12) = " + bfsSolution(5, 12));
-    }
-
     public static int solution(int N, int number) {
         List<Set<Integer>> list = new ArrayList<>();
 
@@ -99,4 +140,5 @@ public class ProgrammersOperationWithN {
 
         return -1;
     }
+     */
 }
