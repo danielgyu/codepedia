@@ -1,5 +1,7 @@
 *.executable
 
+*/bin/
+
 HELP.md
 .gradle
 build/
