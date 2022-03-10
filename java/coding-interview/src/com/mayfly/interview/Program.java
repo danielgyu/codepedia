@@ -1,10 +1,10 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.stacks.SunsetViews;
+import com.mayfly.interview.strings.LongestPalindromeSubstring;
 
 public class Program {
     public static void main(String[] args) {
         //Permutations.run();
-        SunsetViews.run();
+        LongestPalindromeSubstring.run();
     }
 }
