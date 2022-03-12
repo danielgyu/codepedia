@@ -1,10 +1,10 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.strings.LongestPalindromeSubstring;
+import com.mayfly.interview.dynamicProgramming.ProgrammersTriangle;
 
 public class Program {
     public static void main(String[] args) {
         //Permutations.run();
-        LongestPalindromeSubstring.run();
+        ProgrammersTriangle.run();
     }
 }
