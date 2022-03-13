@@ -1,6 +1,6 @@
 *.executable
 
-/bin/
+bin/
 
 HELP.md
 .gradle
