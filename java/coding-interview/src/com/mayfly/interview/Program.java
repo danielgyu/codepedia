@@ -1,10 +1,10 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.graphs.ProgrammersWordChangeLvl3;
+import com.mayfly.interview.sortings.ProgrammersSorting;
 
 public class Program {
     public static void main(String[] args) {
         //Permutations.run();
-        ProgrammersWordChangeLvl3.run();
+        ProgrammersSorting.run();
     }
 }
