@@ -25,5 +25,6 @@ public class MinNumberOfCoinsForChange {
         System.out.println(minNumberOfCoinsForChange(4, new int[]{1, 5, 10}));
         System.out.println(minNumberOfCoinsForChange(10, new int[]{1, 5, 10}));
         System.out.println(minNumberOfCoinsForChange(3, new int[]{2, 1}));
+        System.out.println(minNumberOfCoinsForChange(6249, new int[]{186, 419, 83, 408}));
     }
 }
