@@ -2,7 +2,25 @@ package com.mayfly.interview.dynamicProgramming.leetcode;
 
 import java.util.*;
 
+/*
+https://leetcode.com/problems/word-break/
+ */
 public class WordBreak {
+
+    public static boolean dpSolution(String s, List<String> wordDict) {
+        boolean[] table = new boolean[s.length()+1];
+        table[0] = true;
+
+        for (int i = 1; i < s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (table[j] && wordDict.contains(s.substring(j, i))) {
+                    table[i] = true;
+                }
+            }
+        }
+
+        return table[s.length()];
+    }
 
     public static boolean solution(String s, List<String> wordDict) {
         Collections.sort(wordDict, new Comparator<String>() {
