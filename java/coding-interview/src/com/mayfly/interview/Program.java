@@ -1,5 +1,6 @@
 package com.mayfly.interview;
 
+import com.mayfly.interview.arrays.leetcode.MaximumProductSubarray;
 import com.mayfly.interview.dynamicProgramming.MinNumberOfCoinsForChange;
 import com.mayfly.interview.dynamicProgramming.leetcode.LongestCommonSubsequence;
 import com.mayfly.interview.dynamicProgramming.leetcode.WordBreak;
@@ -11,6 +12,7 @@ public class Program {
         //LongestIncreasingSubsequence.run();
         //LongestCommonSubsequence.run();
         //WordBreak.run();
-        Immigration.run();
+        //Immigration.run();
+        MaximumProductSubarray.run();
     }
 }
