@@ -12,15 +12,12 @@ public class Immigration {
         long sum;
         long answer = max;
 
-        System.out.println("min=" + min + " " + "max=" + max);
         while (min <= max) {
             sum = 0;
             mid = (min + max) / 2;
-            System.out.println("sum=" + sum + " " + "mid=" + mid);
 
             for (int time: times) {
                 sum += mid / time;
-                System.out.println("sum = " + sum);
             }
 
             if (sum >= n) {
@@ -31,8 +28,6 @@ public class Immigration {
             } else {
                 min = mid + 1;
             }
-
-            System.out.println();
         }
         return answer;
     }
