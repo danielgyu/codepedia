@@ -47,6 +47,7 @@ public class Ranking {
                 }
             }
             if (flag) {
+                System.out.println("i = " + i);
                 answer++;
             }
         }
