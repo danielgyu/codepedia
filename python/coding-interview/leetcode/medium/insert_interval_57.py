@@ -1,30 +1,25 @@
 def solution(intervals, new_interval):
-	i, length = 0, len(intervals)
-
 	res = []
-	while i < length:
-		# no correlation
-		if new_interval[0] > intervals[i][1] or new_interval[1] < intervals[i][0]:
-			res.append(intervals[i])
-
-		# in between
-		if ((i >= 0 and i < length) and 
-			new_interval[0] > intervals[i][1] and
-			new_interval[1] < intervals[i+1][0]):
+	for i in range(len(intervals)):
+		print(f"new_interval: {new_interval}")
+		if new_interval[1] < intervals[i][0]:
 			res.append(new_interval)
-
-		# merge possibility
-		start = min(intervals[i][0], new_interval[0])
-		while new_interval[1] > intervals[i][1]:
-			i += 1
-		end = intervals[i][1]
-		res.append([start, end])
-
-		i += 1
-
-	print(f"res: {res}")
+			return res + intervals[i:]
+		elif new_interval[0] > intervals[i][1]:
+			res.append(intervals[i])
+		else:
+			start = min(new_interval[0], intervals[i][0])
+			end = max(new_interval[1], intervals[i][1])
+			new_interval = [start, end]
+	
+	res.append(new_interval)
 	return res
 
 
-solution([[1,3],[6,9]], [4,5])
-solution([[1,3],[6,9]], [2,5])
+solution([[1,2],[3,5],[6,7],[8,10],[12,16]], [4,8])
+assert solution([[1,3],[6,9]], [4,5]) == [[1,3], [4,5], [6,9]]
+assert solution([[1,3],[6,9]], [2,5]) == [[1,5], [6,9]]
+assert solution([[4,5],[8,10]], [11,19]) == [[4,5], [8, 10], [11,19]]
+assert solution([[8,10],[13,15]], [1,3]) == [[1,3], [8,10], [13,15]]
+assert solution([], [5,7]) == [[5,7]]
+assert solution([[1,5]], [2,7]) == [[1,7]]
