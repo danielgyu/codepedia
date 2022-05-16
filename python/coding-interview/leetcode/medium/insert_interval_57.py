@@ -1,7 +1,6 @@
 def solution(intervals, new_interval):
 	res = []
 	for i in range(len(intervals)):
-		print(f"new_interval: {new_interval}")
 		if new_interval[1] < intervals[i][0]:
 			res.append(new_interval)
 			return res + intervals[i:]
