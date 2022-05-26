@@ -1,4 +1,10 @@
 from django.http import HttpResponse
 
-def index(request):
-    return HttpResponse("Hello Django!")
+from restaurants.models import Restaurants, Dishes
+
+
+def healthcheck(request):
+    return HttpResponse("healthy")
+
+
+def
