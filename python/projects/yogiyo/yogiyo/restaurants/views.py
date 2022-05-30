@@ -1,12 +1,17 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 from restaurants.models import Restaurants, Dishes
 
 
-def healthcheck(request):
-    return HttpResponse("healthy")
-
-
-def all_restaurants():
+def all_restaurants(request):
     restaurants = Restaurants.objects.all()
-    return {"name": r.name for r in restaurants}
+    return JsonResponse({r.id: r.name for r in restaurants})
+
+
+def get_restaurant(request, restaurant_id):
+    try:
+        restaurant = Restaurants.objects.get(id=restaurant_id)
+        return JsonResponse({restaurant.id: restaurant.name})
+    except ObjectDoesNotExist:
+        return JsonResponse({"error": "None"})
