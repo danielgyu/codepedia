@@ -17,10 +17,10 @@ def solution(s):
         return palindrome
 
     longest = s[0]
-    for i in range(1, len(s)):
+    for i in range(len(s)):
         even = check_palindrome(i, i+1)
         odd = check_palindrome(i-1, i+1)
-        longest = sorted([longest, even, odd], key=len, reverse=True)[0]
+        longest = sorted([longest, even, odd], key=len)[-1]
 
     print(f"longest: {longest}")
     return longest
@@ -29,3 +29,4 @@ def solution(s):
 if __name__ == "__main__":
     solution("babad")
     solution("cbbd")
+    solution("ccd")
