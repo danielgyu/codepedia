@@ -1,19 +1,17 @@
 <template>
-<div>
-  <NavBar />
-  <router-view />
-</div>
-</template>
-
-<script>
-import NavBar from "./components/NavBar.vue"
+ <div>
+     <NavBar />
+     <router-view />
+  </div>
+</template> 
+<script> 
+import NavBar from "./components/NavBar.vue"; 
 export default {
-  components: {
-    NavBar
-  }
-}
+ components : {
+     NavBar
+  } 
+} 
 </script>
-
 
 <style>
 #app {
@@ -21,7 +19,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50; 
+  color: #2c3e50;
 }
 
 #nav {
@@ -30,7 +28,7 @@ export default {
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50
+  color: #2c3e50;
 }
 
 #nav a.router-link-exact-active {
