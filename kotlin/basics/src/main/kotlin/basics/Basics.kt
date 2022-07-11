@@ -2,6 +2,15 @@ package basics
 
 import java.lang.RuntimeException
 
+fun runBasic(): Unit {
+    val b: Basics = Basics()
+    b.calculate()
+    println(b.ternary())
+    b.tryCatch()
+    println(b.namedArguments())
+    b.iterating()
+}
+
 class Basics {
     fun iterating() {
         val list: IntArray = intArrayOf(1, 2, 3, 4)

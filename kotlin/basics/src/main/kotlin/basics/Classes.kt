@@ -1,5 +1,12 @@
 package basics
 
+fun runClasses(): Unit {
+    val c: Classes = Classes(2020, "BLUE")
+    println(c.thisCity)
+    println(c.thisColor)
+    c.thisColor = "Red"
+}
+
 class Classes(val year: Int, color: String) {
     var thisCity: String = "Seoul"
 
