@@ -3,6 +3,7 @@ package basics
 fun runCompanions() {
     println(Companions.name)
     Companions.shout()
+    println(Companions.Companion)
 }
 
 class Companions(val year: Int) {

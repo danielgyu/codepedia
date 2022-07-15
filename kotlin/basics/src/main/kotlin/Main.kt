@@ -1,6 +1,6 @@
-import basics.Companions
-import basics.runCompanions
+import concurrency.Coroutines
 
 fun main(args: Array<String>) {
-    runCompanions()
+    var c = Coroutines()
+    c.run()
 }
