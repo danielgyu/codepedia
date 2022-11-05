@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{ num }}
+        <button v-on:click="addNum">increase</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                num: 10,
+            },
+            watch: {
+                num: function() {
+                    this.logNum();
+                }
+            },
+            methods: {
+                addNum: function() {
+                    this.num += 1;
+                },
+                logNum: function() {
+                    console.log(this.num);
+                }
+            }
+        })
+    </script>    
+</body>
+</html>
