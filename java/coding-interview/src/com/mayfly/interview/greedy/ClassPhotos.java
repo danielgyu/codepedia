@@ -28,7 +28,7 @@ public class ClassPhotos {
                 new ArrayList<>(Arrays.asList(6, 9, 2, 4, 5))
         ));
         System.out.println(solution(
-                new ArrayList<>(Arrays.asList(1, 3, 라6)),
+                new ArrayList<>(Arrays.asList(1, 3, 6)),
                 new ArrayList<>(Arrays.asList(2, 4, 5))
         ));
     }
