@@ -1,10 +1,9 @@
 package com.mayfly.interview;
 
-
-import com.mayfly.interview.recursion.FindPrime;
+import com.mayfly.interview.searching.FaultyUsers;
 
 public class Program {
     public static void main(String[] args) {
-        new FindPrime().run();
+        new FaultyUsers().run();
     }
 }
