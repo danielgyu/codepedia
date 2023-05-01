@@ -2,18 +2,28 @@ package hismayfly.helloboot;
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
-import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-
+@Configuration
 public class HellobootApplication {
+	@Bean
+	public HelloController helloController(HelloService helloService) {
+		return new HelloController(helloService);
+	}
+
+	@Bean
+	public HelloService helloService() {
+		return new SimpleHelloService();
+	}
 
 	public static void main(String[] args) {
 		// Spring Container
-		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext() {
+		AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
 			@Override
 			protected void onRefresh() {
 				super.onRefresh();
@@ -23,16 +33,13 @@ public class HellobootApplication {
 
 				// Add Servlet to Servlet Container
 				WebServer webServer = factory.getWebServer(servletContext -> {
-					servletContext.addServlet("dispatcherServlet",
-							new DispatcherServlet(this)
-					).addMapping("/*");
+					servletContext.addServlet("dispatcherServlet", new DispatcherServlet(this)).addMapping("/*");
 				});
 
 				webServer.start();
 			}
 		};
-		applicationContext.registerBean(HelloController.class);
-		applicationContext.registerBean(SimpleHelloService.class);
+		applicationContext.register(HellobootApplication.class);
 		applicationContext.refresh();
 
 	}
