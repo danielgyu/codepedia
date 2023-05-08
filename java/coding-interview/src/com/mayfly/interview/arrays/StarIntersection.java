@@ -63,7 +63,7 @@ public class StarIntersection {
         String[] board = new String[down+up+1];
         int boardIdx = 0;
 
-        for (int i = vertial; i < up+1; i++) {
+        for (int i = vertical; i < up+1; i++) {
             String row = "";
             for (int j = left; j < right+1; j++) {
                 Pair pair = new Pair(i, j, true);

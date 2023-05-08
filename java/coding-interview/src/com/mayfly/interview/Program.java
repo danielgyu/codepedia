@@ -1,10 +1,9 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.arrays.StarIntersection;
+import com.mayfly.interview.searching.FaultyUsers;
 
 public class Program {
     public static void main(String[] args) {
-        StarIntersection si = new StarIntersection();
-        si.run();
+        new FaultyUsers().run();
     }
 }
