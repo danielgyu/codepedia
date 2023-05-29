@@ -1,6 +1,5 @@
 package hismayfly.config;
 
-import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.boot.context.annotation.ImportCandidates;
 import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.core.type.AnnotationMetadata;
@@ -19,7 +18,7 @@ public class MyAutoConfigImportSelector implements DeferredImportSelector {
     public String[] selectImports(AnnotationMetadata importingClassMetadata) {
         List<String> autoConfigs = new ArrayList<>();
 
-        ImportCandidates.load(MyAutoConfiguration.class, this.classLoader).forEach(autoConfigs::add);
+        ImportCandidates.load(MyAutoConfiguration.class, classLoader).forEach(autoConfigs::add);
 
         return autoConfigs.toArray(new String[0]);
     }
