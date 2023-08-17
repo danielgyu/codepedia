@@ -15,13 +15,14 @@ Start:
 
     lda $0
     ldx #$FF
+	sta $FF
 
 Loop:
-    ; store the value of A to memory $0 + X
-    sta $0,X
-
     ;x--, DEX is a instruction that sets flags(including z)
     dex  
+
+    ; store the value of A to memory $0 + X
+    sta $0,X
 
     ;branch to loop if z flag is not zero
     bne Loop
