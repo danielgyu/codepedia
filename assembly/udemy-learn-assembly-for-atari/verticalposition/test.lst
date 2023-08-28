@@ -1,4 +1,4 @@
-------- FILE verticalposition.asm LEVEL 1 PASS 2
+------- FILE test.asm LEVEL 1 PASS 2
       1  fffe					      processor	6502
       2  10000 ????
       3  10000 ????						;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -206,7 +206,7 @@
     198  10000 ????				       SEG
     199  10000 ????
     200  10000 ????						; EOF
-------- FILE verticalposition.asm
+------- FILE test.asm
 ------- FILE macro.h LEVEL 2 PASS 2
       0  10000 ????				       include	"macro.h"
       1  10000 ????						; MACRO.H
@@ -372,7 +372,7 @@
     161  10000 ????
     162  10000 ????
     163  10000 ????						; EOF
-------- FILE verticalposition.asm
+------- FILE test.asm
       8  10000 ????
       9  10000 ????						;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
      10  10000 ????						;;; Start an uninitialized segment at $80 for variable declaration
@@ -382,13 +382,17 @@
      14 U0080		       00	   P0Height   byte.b		; player height
      15 U0081		       00	   PlayerYPosition byte.b		; player Y coordinate(bottommost)
      16 U0082
-     17 U0082							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     18 U0082							;;; Start ROM code segment
-     19 U0082							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     20  10000 ????				       seg
-     21  f000					      org	$F000
-     22  f000
-     23  f000				   Reset
+     17 U0082
+     18 U0082							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     19 U0082							;;; Start ROM code segment
+     20 U0082							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     21  10000 ????				       seg
+     22  f000					      org	$F000
+     23  f000
+     24  f000							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     25  f000							;;; Initialize variables
+     26  f000							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     27  f000				   Reset
       0  f000					      CLEAN_START
       1  f000		       78		      sei
       2  f001		       d8		      cld
@@ -401,259 +405,36 @@
       9  f008		       48		      pha
      10  f009		       d0 fb		      bne	.CLEAR_STACK
      11  f00b
-     25  f00b
-     26  f00b		       a2 00		      ldx	#$00
-     27  f00d		       86 09		      stx	COLUBK
-     28  f00f
-     29  f00f							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     30  f00f							;;; Initialize variables
-     31  f00f							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     32  f00f		       a9 b4		      lda	#180
-     33  f011		       85 81		      sta	PlayerYPosition	; PlayerYPosition = 180
-     34  f013
-     35  f013		       a9 09		      lda	#9
-     36  f015		       85 80		      sta	P0Height	; P0Height = 9
-     37  f017
-     38  f017							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     39  f017							;;; Start a new frame by configuring VBLANK and VSYNC
-     40  f017							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     41  f017				   StartFrame
-     42  f017		       a9 02		      lda	#2
-     43  f019		       85 01		      sta	VBLANK
-     44  f01b		       85 00		      sta	VSYNC
-     45  f01d
-     46  f01d							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     47  f01d							;;; 3 lines of VSYNC
-     48  f01d							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     49  f01d					      REPEAT	3
-     50  f01d		       85 02		      sta	WSYNC
-     49  f01d					      REPEND
-     50  f01f		       85 02		      sta	WSYNC
-     49  f01f					      REPEND
-     50  f021		       85 02		      sta	WSYNC
-     51  f023					      REPEND
-     52  f023		       a9 00		      lda	#0
-     53  f025		       85 00		      sta	VSYNC
-     54  f027
-     55  f027							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     56  f027							;;; 37 lines of VBLANK
-     57  f027							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     58  f027					      REPEAT	37
-     59  f027		       85 02		      sta	WSYNC
-     58  f027					      REPEND
-     59  f029		       85 02		      sta	WSYNC
-     58  f029					      REPEND
-     59  f02b		       85 02		      sta	WSYNC
-     58  f02b					      REPEND
-     59  f02d		       85 02		      sta	WSYNC
-     58  f02d					      REPEND
-     59  f02f		       85 02		      sta	WSYNC
-     58  f02f					      REPEND
-     59  f031		       85 02		      sta	WSYNC
-     58  f031					      REPEND
-     59  f033		       85 02		      sta	WSYNC
-     58  f033					      REPEND
-     59  f035		       85 02		      sta	WSYNC
-     58  f035					      REPEND
-     59  f037		       85 02		      sta	WSYNC
-     58  f037					      REPEND
-     59  f039		       85 02		      sta	WSYNC
-     58  f039					      REPEND
-     59  f03b		       85 02		      sta	WSYNC
-     58  f03b					      REPEND
-     59  f03d		       85 02		      sta	WSYNC
-     58  f03d					      REPEND
-     59  f03f		       85 02		      sta	WSYNC
-     58  f03f					      REPEND
-     59  f041		       85 02		      sta	WSYNC
-     58  f041					      REPEND
-     59  f043		       85 02		      sta	WSYNC
-     58  f043					      REPEND
-     59  f045		       85 02		      sta	WSYNC
-     58  f045					      REPEND
-     59  f047		       85 02		      sta	WSYNC
-     58  f047					      REPEND
-     59  f049		       85 02		      sta	WSYNC
-     58  f049					      REPEND
-     59  f04b		       85 02		      sta	WSYNC
-     58  f04b					      REPEND
-     59  f04d		       85 02		      sta	WSYNC
-     58  f04d					      REPEND
-     59  f04f		       85 02		      sta	WSYNC
-     58  f04f					      REPEND
-     59  f051		       85 02		      sta	WSYNC
-     58  f051					      REPEND
-     59  f053		       85 02		      sta	WSYNC
-     58  f053					      REPEND
-     59  f055		       85 02		      sta	WSYNC
-     58  f055					      REPEND
-     59  f057		       85 02		      sta	WSYNC
-     58  f057					      REPEND
-     59  f059		       85 02		      sta	WSYNC
-     58  f059					      REPEND
-     59  f05b		       85 02		      sta	WSYNC
-     58  f05b					      REPEND
-     59  f05d		       85 02		      sta	WSYNC
-     58  f05d					      REPEND
-     59  f05f		       85 02		      sta	WSYNC
-     58  f05f					      REPEND
-     59  f061		       85 02		      sta	WSYNC
-     58  f061					      REPEND
-     59  f063		       85 02		      sta	WSYNC
-     58  f063					      REPEND
-     59  f065		       85 02		      sta	WSYNC
-     58  f065					      REPEND
-     59  f067		       85 02		      sta	WSYNC
-     58  f067					      REPEND
-     59  f069		       85 02		      sta	WSYNC
-     58  f069					      REPEND
-     59  f06b		       85 02		      sta	WSYNC
-     58  f06b					      REPEND
-     59  f06d		       85 02		      sta	WSYNC
-     58  f06d					      REPEND
-     59  f06f		       85 02		      sta	WSYNC
-     60  f071					      REPEND
-     61  f071
-     62  f071		       a9 00		      lda	#0
-     63  f073		       85 01		      sta	VBLANK
-     64  f075
-     65  f075							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     66  f075							;;; draw the 192 visible scanlines
-     67  f075							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     68  f075		       a2 c0		      ldx	#192
-     69  f077				   VisibleScanlines
-     70  f077		       8a		      txa
-     71  f078		       38		      sec
-     72  f079		       e5 81		      sbc	PlayerYPosition
-     73  f07b		       c5 80		      cmp	P0Height
-     74  f07d		       90 02		      bcc	LoadBitmap
-     75  f07f		       a9 00		      lda	#0
-     76  f081
-     77  f081				   LoadBitmap
-     78  f081		       a8		      tay
-     79  f082		       b9 d6 f0 	      lda	P0Bitmap,Y
-     80  f085
-     81  f085		       85 02		      sta	WSYNC
-     82  f087
-     83  f087		       85 1b		      sta	GRP0
-     84  f089
-     85  f089		       b9 df f0 	      lda	P0Color,Y
-     86  f08c
-     87  f08c		       85 06		      sta	COLUP0
-     88  f08e
-     89  f08e		       ca		      dex
-     90  f08f		       d0 e6		      bne	VisibleScanlines
-     91  f091
-     92  f091							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     93  f091							;;; 30 lines of VBLANK(overscan)
-     94  f091							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     95  f091				   Overscan
-     96  f091		       a9 02		      lda	#2
-     97  f093		       85 01		      sta	VBLANK
-     98  f095					      REPEAT	30
-     99  f095		       85 02		      sta	WSYNC
-     98  f095					      REPEND
-     99  f097		       85 02		      sta	WSYNC
-     98  f097					      REPEND
-     99  f099		       85 02		      sta	WSYNC
-     98  f099					      REPEND
-     99  f09b		       85 02		      sta	WSYNC
-     98  f09b					      REPEND
-     99  f09d		       85 02		      sta	WSYNC
-     98  f09d					      REPEND
-     99  f09f		       85 02		      sta	WSYNC
-     98  f09f					      REPEND
-     99  f0a1		       85 02		      sta	WSYNC
-     98  f0a1					      REPEND
-     99  f0a3		       85 02		      sta	WSYNC
-     98  f0a3					      REPEND
-     99  f0a5		       85 02		      sta	WSYNC
-     98  f0a5					      REPEND
-     99  f0a7		       85 02		      sta	WSYNC
-     98  f0a7					      REPEND
-     99  f0a9		       85 02		      sta	WSYNC
-     98  f0a9					      REPEND
-     99  f0ab		       85 02		      sta	WSYNC
-     98  f0ab					      REPEND
-     99  f0ad		       85 02		      sta	WSYNC
-     98  f0ad					      REPEND
-     99  f0af		       85 02		      sta	WSYNC
-     98  f0af					      REPEND
-     99  f0b1		       85 02		      sta	WSYNC
-     98  f0b1					      REPEND
-     99  f0b3		       85 02		      sta	WSYNC
-     98  f0b3					      REPEND
-     99  f0b5		       85 02		      sta	WSYNC
-     98  f0b5					      REPEND
-     99  f0b7		       85 02		      sta	WSYNC
-     98  f0b7					      REPEND
-     99  f0b9		       85 02		      sta	WSYNC
-     98  f0b9					      REPEND
-     99  f0bb		       85 02		      sta	WSYNC
-     98  f0bb					      REPEND
-     99  f0bd		       85 02		      sta	WSYNC
-     98  f0bd					      REPEND
-     99  f0bf		       85 02		      sta	WSYNC
-     98  f0bf					      REPEND
-     99  f0c1		       85 02		      sta	WSYNC
-     98  f0c1					      REPEND
-     99  f0c3		       85 02		      sta	WSYNC
-     98  f0c3					      REPEND
-     99  f0c5		       85 02		      sta	WSYNC
-     98  f0c5					      REPEND
-     99  f0c7		       85 02		      sta	WSYNC
-     98  f0c7					      REPEND
-     99  f0c9		       85 02		      sta	WSYNC
-     98  f0c9					      REPEND
-     99  f0cb		       85 02		      sta	WSYNC
-     98  f0cb					      REPEND
-     99  f0cd		       85 02		      sta	WSYNC
-     98  f0cd					      REPEND
-     99  f0cf		       85 02		      sta	WSYNC
-    100  f0d1					      REPEND
-    101  f0d1
-    102  f0d1							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    103  f0d1							;;; Animation effect for object to fall
-    104  f0d1							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    105  f0d1							; decrease PlayerYPosition
-    106  f0d1		       c6 81		      dec	PlayerYPosition
-    107  f0d3
-    108  f0d3							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    109  f0d3							;;; loop to next frame
-    110  f0d3							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    111  f0d3		       4c 17 f0 	      jmp	StartFrame
-    112  f0d6
-    113  f0d6							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    114  f0d6							;;; Player graphics bitmap lookup table
-    115  f0d6							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    116  f0d6				   P0Bitmap
-    117  f0d6		       00		      .byte.b	#%00000000
-    118  f0d7		       7e		      .byte.b	#%01111110
-    119  f0d8		       ff		      .byte.b	#%11111111
-    120  f0d9		       c7		      .byte.b	#%11000111
-    121  f0da		       c7		      .byte.b	#%11000111
-    122  f0db		       c7		      .byte.b	#%11000111
-    123  f0dc		       ff		      .byte.b	#%11111111
-    124  f0dd		       ff		      .byte.b	#%11111111
-    125  f0de		       7e		      .byte.b	#%01111110
-    126  f0df
-    127  f0df							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    128  f0df							;;; Player color bitmap lookup table
-    129  f0df							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    130  f0df				   P0Color
-    131  f0df		       00		      byte.b	#$00
-    132  f0e0		       40		      byte.b	#$40
-    133  f0e1		       40		      byte.b	#$40
-    134  f0e2		       40		      byte.b	#$40
-    135  f0e3		       40		      byte.b	#$40
-    136  f0e4		       42		      byte.b	#$42
-    137  f0e5		       42		      byte.b	#$42
-    138  f0e6		       44		      byte.b	#$44
-    139  f0e7		       d2		      byte.b	#$D2
-    140  f0e8
-    141  f0e8							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    142  f0e8							;;; Complete ROM
-    143  f0e8							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    144  fffc					      org	$FFFC
-    145  fffc		       00 f0		      .word.w	Reset
-    146  fffe		       00 f0		      .word.w	Reset
+     29  f00b
+     30  f00b		       a9 05		      lda	#5
+     31  f00d		       85 81		      sta	PlayerYPosition	; PlayerYPosition = 5
+     32  f00f
+     33  f00f		       a9 03		      lda	#3
+     34  f011		       85 80		      sta	P0Height	; P0Height = 9
+     35  f013				   Start
+     36  f013
+     37  f013		       a2 0a		      ldx	#10
+     38  f015				   Loop
+     39  f015		       8a		      txa
+     40  f016
+     41  f016		       38		      sec
+     42  f017		       e5 81		      sbc	PlayerYPosition	; YPosition
+     43  f019		       c5 80		      cmp	P0Height	; height
+     44  f01b
+     45  f01b		       90 02		      bcc	End
+     46  f01d		       a9 00		      lda	#0
+     47  f01f
+     48  f01f				   End
+     49  f01f		       a8		      tay
+     50  f020
+     51  f020		       ca		      dex
+     52  f021		       d0 f2		      bne	Loop
+     53  f023
+     54  f023		       4c 13 f0 	      jmp	Start
+     55  f026
+     56  f026							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     57  f026							;; fill up ROM
+     58  f026							;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     59  fffc					      org	$FFFC
+     60  fffc		       00 f0		      .word.w	Reset
+     61  fffe		       00 f0		      .word.w	Reset

@@ -7,8 +7,8 @@ AUDF0                    0017
 AUDF1                    0018                  
 AUDV0                    0019                  
 AUDV1                    001a                  
-COLUBK                   0009              (R )
-COLUP0                   0006              (R )
+COLUBK                   0009                  
+COLUP0                   0006                  
 COLUP1                   0007                  
 COLUPF                   0008                  
 CTRLPF                   000a                  
@@ -24,7 +24,8 @@ CXPPMM                   0007
 ENABL                    001f                  
 ENAM0                    001d                  
 ENAM1                    001e                  
-GRP0                     001b              (R )
+End                      f01f              (R )
+GRP0                     001b                  
 GRP1                     001c                  
 HMBL                     0024                  
 HMCLR                    002b                  
@@ -40,12 +41,9 @@ INPT3                    000b
 INPT4                    000c                  
 INPT5                    000d                  
 INTIM                    0284                  
-LoadBitmap               f081              (R )
+Loop                     f015              (R )
 NUSIZ0                   0004                  
 NUSIZ1                   0005                  
-Overscan                 f091                  
-P0Bitmap                 f0d6              (R )
-P0Color                  f0df              (R )
 P0Height                 0080              (R )
 PF0                      000d                  
 PF1                      000e                  
@@ -62,7 +60,7 @@ RESMP1                   0029
 RESP0                    0010                  
 RESP1                    0011                  
 RSYNC                    0003                  
-StartFrame               f017              (R )
+Start                    f013              (R )
 SWACNT                   0281                  
 SWBCNT                   0283                  
 SWCHA                    0280                  
@@ -75,13 +73,12 @@ TIM1T                    0294
 TIM64T                   0296                  
 TIM8T                    0295                  
 TIMINT                   0285                  
-VBLANK                   0001              (R )
+VBLANK                   0001                  
 VDELBL                   0027                  
 VDELP0                   0025                  
 VDELP1                   0026                  
 VERSION_MACRO            006a                  
 VERSION_VCS              0069                  
-VisibleScanlines         f077              (R )
-VSYNC                    0000              (R )
-WSYNC                    0002              (R )
+VSYNC                    0000                  
+WSYNC                    0002                  
 --- End of Symbol List.
