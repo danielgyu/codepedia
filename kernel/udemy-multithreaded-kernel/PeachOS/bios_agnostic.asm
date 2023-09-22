@@ -9,20 +9,6 @@ _start:
 start:
 	jmp 0x7c0: step2
 
-handle_zero:
-	mov ah, 0eh
-	mov al, 'A'
-	mov bx, 0x00
-	int 0x10
-	iret
-
-handle_one:
-	mov ah, 0eh
-	mov al, 'V'
-	mov bx, 0x00
-	int 0x10
-	iret
-
 step2:
 	;;; manually configure the segment registers
 	;;; so that it could be BIOS-agnostic
@@ -39,15 +25,6 @@ step2:
 	mov sp, 0x7c00  ; set stack pointer to 0x7c00
 
 	sti  ; enable interrupts
-
-	;;; setup custom interupt
-	mov word[ss:0x00], handle_zero
-	mov word[ss:0x02], 0x7c0
-	int 0  ; call interrupt 0(custom interrupt)
-
-	mov word[ss:0x04], handle_one
-	mov word[ss:0x06], 0x7c0
-	int 1  ; call interrupt 1(custom interrupt)
 
 	mov si, message  ; move our start of the message to the si register
 	call print  ; call print subroutine
