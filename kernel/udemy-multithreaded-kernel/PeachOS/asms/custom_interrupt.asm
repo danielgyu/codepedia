@@ -9,6 +9,20 @@ _start:
 start:
 	jmp 0x7c0: step2
 
+handle_zero:
+	mov ah, 0eh
+	mov al, 'A'
+	mov bx, 0x00
+	int 0x10
+	iret
+
+handle_one:
+	mov ah, 0eh
+	mov al, 'V'
+	mov bx, 0x00
+	int 0x10
+	iret
+
 step2:
 	;;; manually configure the segment registers
 	;;; so that it could be BIOS-agnostic
@@ -26,42 +40,17 @@ step2:
 
 	sti  ; enable interrupts
 
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-	;AH = 02h
-	;AL = number of sectors to read (must be nonzero)
-	;CH = low eight bits of cylinder number
-	;CL = sector number 1-63 (bits 0-5)
-	;high two bits of cylinder (bits 6-7, hard disk only)
-	;DH = head number
-	;DL = drive number (bit 7 set for hard disk)
-	;ES:BX -> data buffer
+	;;; setup custom interupt
+	mov word[ss:0x00], handle_zero
+	mov word[ss:0x02], 0x7c0
+	int 0  ; call interrupt 0(custom interrupt)
 
-	;Return:
-	;CF set on error
-	;if AH = 11h (corrected ECC error), AL = burst length
-	;CF clear if successful
-	;AH = status (see #00234)
-	;AL = number of sectors transferred (only valid if CF set for some
-	; BIOSes)
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	mov word[ss:0x04], handle_one
+	mov word[ss:0x06], 0x7c0
+	int 1  ; call interrupt 1(custom interrupt)
 
-	mov ah, 2  ; read sector command
-	mov al, 1  ; one sector to read
-	mov ch, 0  ; low eight bits of desired cyclinder number
-	mov cl, 2  ; read sector two
-	mov dh, 0  ; head number
-	mov bx, buffer
-	int 0x13
-	jc error
-
-	mov si, buffer
-	call print
-
-	jmp $
-
-error:
-	mov si, error_message
-	call print
+	mov si, message  ; move our start of the message to the si register
+	call print  ; call print subroutine
 	jmp $
 
 print:
@@ -81,9 +70,7 @@ print_char:
 	int 0x10  ; calls(interrupts) the BIOS routine, prints cha rin AL
 	ret
 
-error_message: db 'Failed to load sector'
+message: db 'Hello World!', 0
 
 times 510-($ - $$) db 0
 dw 0xAA55
-
-buffer:
