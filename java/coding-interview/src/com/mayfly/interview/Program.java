@@ -1,10 +1,10 @@
 package com.mayfly.interview;
 
-import com.mayfly.interview.searching.FaultyUsers;
-import com.mayfly.interview.recursion.VowelDictionary;
+import com.mayfly.interview.dynamicProgramming.leetcode.JumpGame;
+import com.mayfly.interview.pointers.TwoSumII;
 
 public class Program {
     public static void main(String[] args) {
-        new VowelDictionary().run();
-        new FaultyUsers().run();
+        new TwoSumII().run();
+    }
 }
