@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 
 
 int MAX_ARG_LENGTH = 256;
@@ -45,16 +46,21 @@ int runCommand(const char* parsedArgs) {
 }
 
 int main(int argc, char* argv[]) {
-  if (argc < 4) {
+  if (argc < 3) {
     std::cout << "wrong number of arguments" << std::endl;
-    return 0;
+    return 2;
   }
 
   if (strcmp(argv[1], "run") != 0) {
     std::cout << "non-recognizable command" << std::endl;
-    return 0;
+    return 2;
   }
 
+  if (sethostname("ccrun-container", 15) != 0) {
+    perror("sethostname error occurred");
+    return 2;
+  };
+  
   const char* parsedArgs = parseArgs(argc, argv);
   return runCommand(parsedArgs);
 }
