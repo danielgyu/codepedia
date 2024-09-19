@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/kungyu/Development/codepedia/cpp/toy-jvm/build",
-  "command": "/usr/bin/c++    -o CMakeFiles/toy-jvm.dir/src/main.cpp.o -c /home/kungyu/Development/codepedia/cpp/toy-jvm/src/main.cpp",
+  "command": "/usr/bin/c++  -I/home/kungyu/Development/codepedia/cpp/toy-jvm/include -std=gnu++17 -o CMakeFiles/toy-jvm.dir/src/main.cpp.o -c /home/kungyu/Development/codepedia/cpp/toy-jvm/src/main.cpp",
   "file": "/home/kungyu/Development/codepedia/cpp/toy-jvm/src/main.cpp",
   "output": "CMakeFiles/toy-jvm.dir/src/main.cpp.o"
 }
