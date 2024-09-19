@@ -1,4 +1,5 @@
 #include "ClassParser.hpp"
+#include <memory>
 
 void printHexdump(size_t size, char *array) {
   std::cout << "INFO | hexump: ";
@@ -20,7 +21,7 @@ void copyVectorElementsToArray(size_t array_size, char *array,
     array[i] = elements[j];
   }
 
-  printHexdump(array_size, array);
+  // printHexdump(array_size, array);
 }
 
 ClassParser::ClassParser(std::string file_path) : m_file_path{file_path} {}
@@ -59,12 +60,70 @@ void ClassParser::parse() const {
   std::cout << std::endl;
 
   // start parsing
+  int idx = 0;
   ClassFile classFile;
-  copyVectorElementsToArray(4, classFile.magic, content, 0, 4);
-  copyVectorElementsToArray(2, classFile.minor_version, content, 4, 6);
-  copyVectorElementsToArray(2, classFile.major_version, content, 6, 8);
-  copyVectorElementsToArray(2, classFile.constant_pool_count, content, 8, 10);
 
-  std::cout << "@@" << static_cast<int>(classFile.constant_pool_count[0]) << "."
-            << std::endl;
+  copyVectorElementsToArray(4, classFile.magic, content, idx, idx + 4);
+  idx += 4;
+
+  copyVectorElementsToArray(2, classFile.minor_version, content, idx, idx + 2);
+  idx += 2;
+
+  copyVectorElementsToArray(2, classFile.major_version, content, idx, idx + 2);
+  idx += 2;
+
+  copyVectorElementsToArray(2, classFile.constant_pool_count, content, idx,
+                            idx + 2);
+  idx += 2;
+
+  uint16_t constant_pool_count_decimal =
+      ((static_cast<uint8_t>(classFile.constant_pool_count[0]) << 8) |
+       static_cast<uint8_t>(classFile.constant_pool_count[1])) -
+      1;
+  CPInfo constant_pools[constant_pool_count_decimal];
+  for (size_t i = 0; i < constant_pool_count_decimal; i++) {
+    // for (size_t i = 0; i < 4; i++) {
+    std::unique_ptr<CPInfo> cp_info_ptr = std::make_unique<CPInfo>();
+
+    auto tag = content[idx];
+
+    switch (tag) {
+    case 1: {
+      std::cout << "INFO | tag: CONSTANT_Utf8" << std::endl;
+      idx += 1;
+      uint16_t utf8_length = ((static_cast<uint8_t>(content[idx]) << 8) |
+                              static_cast<uint8_t>(content[idx + 1]));
+      idx += 2;
+      idx += utf8_length;
+      break;
+    }
+    case 3:
+      std::cout << "INFO | tag: CONSTANT_Integer" << std::endl;
+      idx += 5;
+      break;
+    case 6:
+      std::cout << "INFO | tag: CONSTANT_Double" << std::endl;
+      idx += 9;
+      break;
+    case 7:
+      std::cout << "INFO | tag: CONSTANT_Class" << std::endl;
+      idx += 3;
+      break;
+    case 10:
+      std::cout << "INFO | tag: CONSTANT_Methodref" << std::endl;
+      idx += 5;
+      break;
+    case 12:
+      std::cout << "INFO | tag: CONSTANT_NameAndType" << std::endl;
+      idx += 5;
+      break;
+    default:
+      std::cout << "INFO | not supported tag: " << (int)tag << std::endl;
+      break;
+    }
+  }
+
+  // looksl ike we've finished parsing constant pool
+  // move on to parse access_flags
+  std::cout << "idx at: " << idx << std::endl;
 }
