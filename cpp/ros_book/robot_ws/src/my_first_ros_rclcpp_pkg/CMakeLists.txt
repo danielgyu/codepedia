@@ -12,6 +12,8 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
+find_package(Python3 COMPONENTS Interpreter Development)
+
 # build
 add_executable(helloworld_publisher src/helloworld_publisher.cpp)
 ament_target_dependencies(helloworld_publisher rclcpp std_msgs)
