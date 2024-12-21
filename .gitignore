@@ -386,3 +386,5 @@ AMENT_IGNORE
 Cargo.lock
 target/
 .vscode/
+
+assets/
