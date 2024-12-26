@@ -1,27 +1,30 @@
-import asyncio
-import random
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-app = FastAPI()
-
-ids =[0]
+from PIL import Image
 
 
-class Item(BaseModel):
-    eventType: str
+def crop_original():
+    img = Image.open("./lab/robots.png")
 
-@app.post("/adyo")
-async def root(item: Item):
-    global ids
-    ids.append(ids[-1]+1)
+    row_height = img.height // 26
 
-    id_to_return = ids[-1]+1
-    sleep_time = random.randint(2, 10)
+    cropped = img.crop((0, 0, img.width, row_height))
 
-    print("sleeping for", sleep_time)
-    print("returning", id_to_return)
+    cropped.save("./lab/cropped.png")
 
-    await asyncio.sleep(sleep_time)
-    return {"id": id_to_return}
 
+def crop_cropped():
+    img = Image.open("./lab/cropped.png")
+
+    middle_height = img.height // 2
+
+    cropped = img.crop((1, middle_height, img.width, img.height))
+
+    cropped.save("./lab/cropped.png")
+
+
+def main():
+    crop_original()
+    crop_cropped()
+
+
+if __name__ == "__main__":
+    main()
