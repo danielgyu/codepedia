@@ -1,3 +1,5 @@
+use std::collections::VecDeque;
+
 use bevy::prelude::*;
 use pathfinding::prelude::astar;
 
@@ -14,60 +16,46 @@ fn find_path(start: (i32, i32), goal: (i32, i32)) -> Option<(Vec<(i32, i32)>, u3
     )
 }
 
-fn move_robot(keys: &Res<ButtonInput<KeyCode>>, mut transform: Mut<Transform>) {
-    if keys.pressed(KeyCode::KeyW) {
-        transform.translation.y += 5.0
-    }
-    if keys.pressed(KeyCode::KeyS) {
-        transform.translation.y -= 5.0
-    }
-    if keys.pressed(KeyCode::KeyA) {
-        transform.translation.x -= 5.0
-    }
-    if keys.pressed(KeyCode::KeyD) {
-        transform.translation.x += 5.0
-    }
-
-    let start = (
-        transform.translation.x as i32,
-        transform.translation.y as i32,
-    );
-    let goal = (80, 80);
-    let found = find_path(start, goal).unwrap().0;
-    println!("found={:?}", found);
-
-    println!(
-        "robot at x={:?}, y={:?}",
-        transform.translation.x, transform.translation.y
-    );
-}
-
 #[derive(Component)]
-pub struct RobotAnimationIndices {
+pub struct Robot {
     first: usize,
     last: usize,
-    is_running: bool,
+    is_moving: bool,
+    path: VecDeque<(i32, i32)>,
 }
 
 pub fn animate_robot(
     keys: Res<ButtonInput<KeyCode>>,
-    mut query: Query<(&RobotAnimationIndices, &mut Sprite, &mut Transform)>,
+    mut query: Query<(&mut Robot, &mut Sprite, &mut Transform)>,
 ) {
-    let movement_keys_pressed =
-        keys.any_pressed([KeyCode::KeyA, KeyCode::KeyW, KeyCode::KeyD, KeyCode::KeyS]);
-
-    for (indices, mut sprite, transform) in &mut query {
+    for (mut robot, mut sprite, mut transform) in &mut query {
         if let Some(atlas) = &mut sprite.texture_atlas {
-            if movement_keys_pressed {
-                atlas.index = if atlas.index == indices.last {
-                    indices.first
+            if robot.is_moving && !robot.path.is_empty() {
+                let next_grid = robot.path.pop_front().unwrap();
+                transform.translation.x = next_grid.0 as f32;
+                transform.translation.y = next_grid.1 as f32;
+
+                atlas.index = if atlas.index == robot.last {
+                    robot.first
                 } else {
                     atlas.index + 1
                 };
-
-                move_robot(&keys, transform);
-            } else {
+            } else if robot.is_moving && robot.path.is_empty() {
+                robot.is_moving = false;
                 atlas.index = 0
+            } else if !robot.is_moving && keys.any_pressed([KeyCode::Digit1, KeyCode::Digit2]) {
+                robot.is_moving = true;
+                let path = find_path(
+                    (
+                        transform.translation.x as i32,
+                        transform.translation.y as i32,
+                    ),
+                    (300, 300),
+                )
+                .unwrap()
+                .0;
+                robot.path = VecDeque::from(path);
+                println!("robot path: {:?}", robot.path);
             };
         };
     }
@@ -79,15 +67,16 @@ pub fn setup(
     mut texture_atlas_layout: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     commands.spawn(Camera2d);
-    commands.spawn(Sprite::from_image(asset_server.load("grassground.png")));
+    //commands.spawn(Sprite::from_image(asset_server.load("grassground.png")));
 
     let robot_texture = asset_server.load("robots.png");
     let layout = TextureAtlasLayout::from_grid(UVec2::splat(24), 8, 1, None, None);
     let texture_atlas_layout = texture_atlas_layout.add(layout);
-    let animation_indices = RobotAnimationIndices {
+    let animation_indices = Robot {
         first: 0,
         last: 7,
-        is_running: false,
+        is_moving: false,
+        path: VecDeque::new(),
     };
 
     commands.spawn((
