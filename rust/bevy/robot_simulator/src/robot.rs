@@ -61,6 +61,21 @@ pub fn animate_robot(
     }
 }
 
+pub fn update_robot_status(
+    mut text_query: Query<&mut Text2d>,
+    robot_query: Query<&Robot, Changed<Robot>>,
+) {
+    if let Ok(robot) = robot_query.get_single() {
+        for mut text in &mut text_query {
+            text.0  = if robot.is_moving {
+                "MOVING".to_string()
+            } else {
+                "IDLE".to_string()
+            }
+        }
+    }
+}
+
 pub fn setup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
@@ -89,5 +104,16 @@ pub fn setup(
         ),
         Transform::from_xyz(50., 0., 0.).with_scale(Vec3::splat(3.0)),
         animation_indices,
-    ));
+    ))
+        .with_children(|parent| {
+            parent.spawn((
+                Text2d::new("IDLE"),
+                Transform::from_xyz(0., 15., 0.),
+                TextColor(Color::WHITE),
+                TextFont {
+                    font_size: 5.0,
+                    ..default()
+                },
+            ));
+        });
 }
