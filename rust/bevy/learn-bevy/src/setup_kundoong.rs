@@ -30,9 +30,12 @@ pub fn kundoong_keyboard_movement(
 }
 
 pub fn initial_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+    let shire = Sprite::from_image(asset_server.load("shire.png"));
+
     let mut kundoong = Sprite::from_image(asset_server.load("kundoong.png"));
     kundoong.custom_size = Some(Vec2::new(100., 100.));
 
     commands.spawn(Camera2d);
+    commands.spawn(shire);
     commands.spawn((Character, kundoong, Transform::from_xyz(50., 0., 0.)));
 }
