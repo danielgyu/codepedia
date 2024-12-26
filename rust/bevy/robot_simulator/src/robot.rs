@@ -87,7 +87,7 @@ pub fn setup(
                 index: animation_indices.first,
             },
         ),
-        Transform::from_xyz(50., 0., 0.).with_scale(Vec3::splat(4.0)),
+        Transform::from_xyz(50., 0., 0.).with_scale(Vec3::splat(3.0)),
         animation_indices,
     ));
 }

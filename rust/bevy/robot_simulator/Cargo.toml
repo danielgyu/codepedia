@@ -1,0 +1,8 @@
+[package]
+name = "robot_simulator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.15.0"
+pathfinding = "4.12.0"
