@@ -12,5 +12,6 @@ fn main() {
         .add_systems(Update, robot::update_robot_status)
         .add_systems(Update, tester::send_robot_move_event)
         .add_event::<event::RobotMoveEvent>()
+        .add_event::<event::RobotDisplayEvent>()
         .run();
 }

@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 use bevy::prelude::*;
 use pathfinding::prelude::astar;
 
-use super::event::RobotMoveEvent;
+use super::event::{RobotMoveEvent, RobotDisplayEvent};
 
 fn find_path(start: (i32, i32), goal: (i32, i32)) -> Option<(Vec<(i32, i32)>, u32)> {
     astar(
@@ -46,6 +46,9 @@ pub fn animate_robot(
                 robot.is_moving = false;
                 atlas.index = 0
             } else if !robot.is_moving && ev_robot_move.read().len() > 0 {
+                let event = ev_robot_move.read().last();
+                info!("[ROBOT | animate_robot] last event = {:?}", event);
+
                 robot.is_moving = true;
                 let path = find_path(
                     (
@@ -57,7 +60,7 @@ pub fn animate_robot(
                 .unwrap()
                 .0;
                 robot.path = VecDeque::from(path);
-                info!("robot path: {:?}", robot.path);
+                info!("[ROBOT | animate_robot] path = {:?}", robot.path);
             };
         };
     }
@@ -65,14 +68,13 @@ pub fn animate_robot(
 
 pub fn update_robot_status(
     mut text_query: Query<&mut Text2d>,
-    robot_query: Query<&Robot, Changed<Robot>>,
+    mut ev_robot_move: EventReader<RobotDisplayEvent>,
 ) {
-    if let Ok(robot) = robot_query.get_single() {
-        for mut text in &mut text_query {
-            text.0 = if robot.is_moving {
-                "MOVING".to_string()
-            } else {
-                "IDLE".to_string()
+    for mut text in &mut text_query {
+        if ev_robot_move.read().len() > 0 {
+            if let Some(event) = ev_robot_move.read().last() {
+                info!("[ROBOT | update_robot_status] last event = {:?}", event);
+                text.0 = event.command.clone()
             }
         }
     }
