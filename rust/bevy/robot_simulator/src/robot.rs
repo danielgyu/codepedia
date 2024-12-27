@@ -26,22 +26,30 @@ pub struct Robot {
     path: VecDeque<(i32, i32)>,
 }
 
+#[derive(Component, Deref, DerefMut)]
+pub struct AnimationTimer(Timer);
+
 pub fn animate_robot(
     mut ev_robot_move: EventReader<RobotMoveEvent>,
-    mut query: Query<(&mut Robot, &mut Sprite, &mut Transform)>,
+    mut query: Query<(&mut Robot, &mut Sprite, &mut Transform, &mut AnimationTimer)>,
+    time: Res<Time>,
 ) {
-    for (mut robot, mut sprite, mut transform) in &mut query {
+    for (mut robot, mut sprite, mut transform, mut timer) in &mut query {
+        timer.tick(time.delta());
+
         if let Some(atlas) = &mut sprite.texture_atlas {
             if robot.is_moving && !robot.path.is_empty() {
                 let next_grid = robot.path.pop_front().unwrap();
                 transform.translation.x = next_grid.0 as f32;
                 transform.translation.y = next_grid.1 as f32;
 
-                atlas.index = if atlas.index == robot.last {
-                    robot.first
-                } else {
-                    atlas.index + 1
-                };
+                if timer.just_finished() {
+                    atlas.index = if atlas.index == robot.last {
+                        robot.first
+                    } else {
+                        atlas.index + 1
+                    };
+                }
             } else if robot.is_moving && robot.path.is_empty() {
                 robot.is_moving = false;
                 atlas.index = 0
@@ -88,12 +96,18 @@ pub fn setup(
     commands.spawn(Camera2d);
     //commands.spawn(Sprite::from_image(asset_server.load("grassground.png")));
 
-    let robot_texture = asset_server.load("robots.png");
-    let layout = TextureAtlasLayout::from_grid(UVec2::splat(24), 8, 1, None, None);
+    let robot_texture = asset_server.load("dlodys.png");
+    let layout = TextureAtlasLayout::from_grid(
+        UVec2::new(16, 28),
+        3,
+        1,
+        Some(UVec2::new(4, 0)),
+        None,
+    );
     let texture_atlas_layout = texture_atlas_layout.add(layout);
     let animation_indices = Robot {
         first: 0,
-        last: 7,
+        last: 2,
         is_moving: false,
         path: VecDeque::new(),
     };
@@ -109,11 +123,12 @@ pub fn setup(
             ),
             Transform::from_xyz(50., 0., 0.).with_scale(Vec3::splat(3.0)),
             animation_indices,
+            AnimationTimer(Timer::from_seconds(0.5, TimerMode::Repeating)),
         ))
         .with_children(|parent| {
             parent.spawn((
                 Text2d::new("IDLE"),
-                Transform::from_xyz(0., 15., 0.),
+                Transform::from_xyz(0., 10., 0.),
                 TextColor(Color::WHITE),
                 TextFont {
                     font_size: 5.0,
