@@ -3,6 +3,8 @@ use std::collections::VecDeque;
 use bevy::prelude::*;
 use pathfinding::prelude::astar;
 
+use super::event::RobotMoveEvent;
+
 fn find_path(start: (i32, i32), goal: (i32, i32)) -> Option<(Vec<(i32, i32)>, u32)> {
     astar(
         &start,
@@ -25,7 +27,7 @@ pub struct Robot {
 }
 
 pub fn animate_robot(
-    keys: Res<ButtonInput<KeyCode>>,
+    mut ev_robot_move: EventReader<RobotMoveEvent>,
     mut query: Query<(&mut Robot, &mut Sprite, &mut Transform)>,
 ) {
     for (mut robot, mut sprite, mut transform) in &mut query {
@@ -43,7 +45,7 @@ pub fn animate_robot(
             } else if robot.is_moving && robot.path.is_empty() {
                 robot.is_moving = false;
                 atlas.index = 0
-            } else if !robot.is_moving && keys.any_pressed([KeyCode::Digit1, KeyCode::Digit2]) {
+            } else if !robot.is_moving && ev_robot_move.read().len() > 0 {
                 robot.is_moving = true;
                 let path = find_path(
                     (
@@ -55,7 +57,7 @@ pub fn animate_robot(
                 .unwrap()
                 .0;
                 robot.path = VecDeque::from(path);
-                println!("robot path: {:?}", robot.path);
+                info!("robot path: {:?}", robot.path);
             };
         };
     }
@@ -67,7 +69,7 @@ pub fn update_robot_status(
 ) {
     if let Ok(robot) = robot_query.get_single() {
         for mut text in &mut text_query {
-            text.0  = if robot.is_moving {
+            text.0 = if robot.is_moving {
                 "MOVING".to_string()
             } else {
                 "IDLE".to_string()
@@ -94,17 +96,18 @@ pub fn setup(
         path: VecDeque::new(),
     };
 
-    commands.spawn((
-        Sprite::from_atlas_image(
-            robot_texture,
-            TextureAtlas {
-                layout: texture_atlas_layout,
-                index: animation_indices.first,
-            },
-        ),
-        Transform::from_xyz(50., 0., 0.).with_scale(Vec3::splat(3.0)),
-        animation_indices,
-    ))
+    commands
+        .spawn((
+            Sprite::from_atlas_image(
+                robot_texture,
+                TextureAtlas {
+                    layout: texture_atlas_layout,
+                    index: animation_indices.first,
+                },
+            ),
+            Transform::from_xyz(50., 0., 0.).with_scale(Vec3::splat(3.0)),
+            animation_indices,
+        ))
         .with_children(|parent| {
             parent.spawn((
                 Text2d::new("IDLE"),
