@@ -63,7 +63,8 @@ pub fn animate_robot(
                         transform.translation.x as i32,
                         transform.translation.y as i32,
                     ),
-                    (300, 300),
+                    event.unwrap().location,
+                    //(200, 200),
                 )
                 .unwrap()
                 .0;
@@ -82,7 +83,7 @@ pub fn update_robot_status(
         if ev_robot_move.read().len() > 0 {
             if let Some(event) = ev_robot_move.read().last() {
                 info!("[ROBOT | update_robot_status] last event = {:?}", event);
-                text.0 = event.command.clone()
+                text.0 = format!("{} | {}", event.command.clone(), event.destination.clone());
             }
         }
     }
@@ -93,15 +94,12 @@ pub fn setup(
     asset_server: Res<AssetServer>,
     mut texture_atlas_layout: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    commands.spawn(Camera2d);
-    //commands.spawn(Sprite::from_image(asset_server.load("grassground.png")));
-
     let robot_texture = asset_server.load("dlodys.png");
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(16, 28),
         3,
         1,
-        Some(UVec2::new(4, 0)),
+        None,
         None,
     );
     let texture_atlas_layout = texture_atlas_layout.add(layout);
@@ -121,7 +119,7 @@ pub fn setup(
                     index: animation_indices.first,
                 },
             ),
-            Transform::from_xyz(50., 0., 0.).with_scale(Vec3::splat(3.0)),
+            Transform::from_xyz(10., 0., 0.).with_scale(Vec3::splat(2.0)),
             animation_indices,
             AnimationTimer(Timer::from_seconds(0.5, TimerMode::Repeating)),
         ))
