@@ -12,3 +12,6 @@ pub struct RobotDisplayEvent {
     pub command: String,
     pub destination: String,
 }
+
+#[derive(Debug, Event)]
+pub struct RobotArrivedEvent;

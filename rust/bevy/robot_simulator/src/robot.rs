@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 use bevy::prelude::*;
 use pathfinding::prelude::astar;
 
-use super::event::{RobotMoveEvent, RobotDisplayEvent};
+use super::event::*;
 
 fn find_path(start: (i32, i32), goal: (i32, i32)) -> Option<(Vec<(i32, i32)>, u32)> {
     astar(
@@ -31,6 +31,7 @@ pub struct AnimationTimer(Timer);
 
 pub fn animate_robot(
     mut ev_robot_move: EventReader<RobotMoveEvent>,
+    mut ev_reply_robot_arrived: EventWriter<RobotArrivedEvent>,
     mut query: Query<(&mut Robot, &mut Sprite, &mut Transform, &mut AnimationTimer)>,
     time: Res<Time>,
 ) {
@@ -51,8 +52,10 @@ pub fn animate_robot(
                     };
                 }
             } else if robot.is_moving && robot.path.is_empty() {
+                info!("[ROBOT | animate_robot] robot arrived");
                 robot.is_moving = false;
-                atlas.index = 0
+                atlas.index = 0;
+                ev_reply_robot_arrived.send(RobotArrivedEvent);
             } else if !robot.is_moving && ev_robot_move.read().len() > 0 {
                 let event = ev_robot_move.read().last();
                 info!("[ROBOT | animate_robot] last event = {:?}", event);
@@ -64,12 +67,11 @@ pub fn animate_robot(
                         transform.translation.y as i32,
                     ),
                     event.unwrap().location,
-                    //(200, 200),
                 )
                 .unwrap()
                 .0;
                 robot.path = VecDeque::from(path);
-                info!("[ROBOT | animate_robot] path = {:?}", robot.path);
+                debug!("[ROBOT | animate_robot] path = {:?}", robot.path);
             };
         };
     }
@@ -95,13 +97,7 @@ pub fn setup(
     mut texture_atlas_layout: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let robot_texture = asset_server.load("dlodys.png");
-    let layout = TextureAtlasLayout::from_grid(
-        UVec2::new(16, 28),
-        3,
-        1,
-        None,
-        None,
-    );
+    let layout = TextureAtlasLayout::from_grid(UVec2::new(16, 28), 3, 1, None, None);
     let texture_atlas_layout = texture_atlas_layout.add(layout);
     let animation_indices = Robot {
         first: 0,
@@ -119,7 +115,7 @@ pub fn setup(
                     index: animation_indices.first,
                 },
             ),
-            Transform::from_xyz(10., 0., 0.).with_scale(Vec3::splat(2.0)),
+            Transform::from_xyz(0., 0., 0.).with_scale(Vec3::splat(2.0)),
             animation_indices,
             AnimationTimer(Timer::from_seconds(0.5, TimerMode::Repeating)),
         ))
