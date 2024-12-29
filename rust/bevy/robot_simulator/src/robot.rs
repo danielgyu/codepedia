@@ -81,12 +81,11 @@ pub fn update_robot_status(
     mut text_query: Query<&mut Text2d>,
     mut ev_robot_move: EventReader<RobotDisplayEvent>,
 ) {
-    for mut text in &mut text_query {
-        if ev_robot_move.read().len() > 0 {
-            if let Some(event) = ev_robot_move.read().last() {
-                info!("[ROBOT | update_robot_status] last event = {:?}", event);
-                text.0 = format!("{} | {}", event.command.clone(), event.destination.clone());
-            }
+    let mut text = text_query.single_mut();
+    if ev_robot_move.read().len() > 0 {
+        if let Some(event) = ev_robot_move.read().last() {
+            info!("[ROBOT | update_robot_status] last event = {:?}", event);
+            text.0 = format!("{} | {}", event.command.clone(), event.destination.clone());
         }
     }
 }
@@ -96,7 +95,7 @@ pub fn setup(
     asset_server: Res<AssetServer>,
     mut texture_atlas_layout: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let robot_texture = asset_server.load("dlodys.png");
+    let robot_texture = asset_server.load("robots.png");
     let layout = TextureAtlasLayout::from_grid(UVec2::new(16, 28), 3, 1, None, None);
     let texture_atlas_layout = texture_atlas_layout.add(layout);
     let animation_indices = Robot {
