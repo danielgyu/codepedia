@@ -20,3 +20,5 @@
 
 ## 추가
 - 로봇 위에 표시되는 글자는 현재 로봇의 상태(IDLE, MOVING, ARRIVED)
+- Bevy 공식문서: https://bevyengine.org/
+- Bevy 관련 개인 스터디 로그: https://www.notion.so/hismayfly/Bevy-Entities-Components-16a771321bca80cdb8ece81276619a42?pvs=4
