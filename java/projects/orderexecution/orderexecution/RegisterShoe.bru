@@ -1,0 +1,31 @@
+meta {
+  name: RegisterShoe
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/shoe
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "brand": "nike",
+    "koreanName": "나이키",
+    "englishName": "Nike Airforce",
+    "modelNumber": "NK-AF1",
+    "releasedAt": "2025-02-01",
+    "products": [
+      {
+        "color": "RED",
+        "size": 255
+      },
+      {
+        "color": "WHITE",
+        "size": 260
+      }
+    ]
+  }
+}
